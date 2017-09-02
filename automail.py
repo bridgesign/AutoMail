@@ -22,7 +22,7 @@ import getpass
 
 parser = OptionParser()
 
-parser.add_option("-e", "--ecol", type="string", help="define the column nummber for email", action="store", dest="ecol")
+parser.add_option("-e", "--ecol", type="string", help="define the column nummber for email", action="append", dest="ecol")
 parser.add_option("-a", "--attach", type="string", help="attach a file or list of files to mail", action="append", dest="attach")
 parser.add_option("-c", "--acol", type="string", help="attach file written in a given column", action="append", dest="acol")
 parser.add_option("-m", "--content", type="string", help="the file containing the email content. Default is nothing.", action="store", default="", dest="content")
@@ -60,7 +60,6 @@ if options.content:
         sys.exit(0)
 
 if options.subject:
-    subject = options.subject
     if options.scol:
         print("You cannot use both subject and subject-col options.")
         sys.exit(0)
@@ -68,12 +67,12 @@ if options.subject:
 emid = input("Email-Id: ")
 password = getpass.getpass()
 
-options.ecol = int(options.ecol)
 options.port = int(options.port)
 pick = options.pick
 delim = options.delim
 attachment = []
 attachment = options.attach
+subject = options.subject
 
 ifile = open(options.file, 'rU')
 reader = csv.reader(ifile, delimiter=delim)
@@ -90,67 +89,72 @@ try:
     for (row) in reader:
         a = (row)
         msg = email.mime.multipart.MIMEMultipart()
-        if options.scol:
-            options.scol = int(options.scol)
-            subject = a[(options.scol)]
-        msg['Subject'] = subject
-        msg['From'] = emid
-        msg['To'] = a[(options.ecol)]
+        k = int(0)
+        while k < len(options.ecol):
+            if options.scol:
+                options.scol = int(options.scol)
+                subject = a[(options.scol)]
+            msg['Subject'] = subject
+            msg['From'] = emid
+            msg['To'] = a[int(options.ecol[k])]
 
-        if options.ccol:
-            options.ccol = int(options.ccol)
-            con = open(a[(options.ccol)], 'r')
-            message = con.read()
-            con.close()
-        if options.content:
-            con = open(options.content, 'r')
-            message = con.read()
-            con.close()
-        i = int(0)
-        while i < len(a):
-            message = message.replace(pick + '[' + str(i) + ']', a[i])
-            i+=1
-
-        body = email.mime.text.MIMEText(message)
-        msg.attach(body)
-
-        if options.acol:
-            acola = []
-            acolas = [len(acola)]
-            acola = options.acol
+            if options.ccol:
+                options.ccol = int(options.ccol)
+                con = open(a[(options.ccol)], 'r')
+                message = con.read()
+                con.close()
+            if options.content:
+                con = open(options.content, 'r')
+                message = con.read()
+                con.close()
             i = int(0)
-            while i < len(acola):
-                acolas[i] = (a[int(acola[i])])
+            while i < len(a):
+                message = message.replace(pick + '[' + str(i) + ']', a[i])
                 i+=1
-            if options.attach:
-                attachment = acolas + attachment
-            else:
-                attachment = acolas
-        i = int(0)
-        if options.acol or options.attach:
-            while i < len(attachment):
-                if attachment[i] != '':
-                    filename=attachment[i]
-                    fp=open(filename, 'rb')
-                    ext=Path(filename).suffix
-                    ext = ext[1:]
-                    att = email.mime.application.MIMEApplication(fp.read(),_subtype=ext)
-                    fp.close()
-                    att.add_header('Content-Disposition','attachment',filename=filename)
-                    msg.attach(att)
-                i+=1
-        try:
-            server_ssl.sendmail(emid,[a[(options.ecol)]], msg.as_string())
-            rownum+=1
-            print("Completed " + str(rownum) + " emails.")
-        except:
+
+            body = email.mime.text.MIMEText(message)
+            msg.attach(body)
+
+            if options.acol:
+                acola = []
+                acolas = [len(acola)]
+                acola = options.acol
+                i = int(0)
+                while i < len(acola):
+                    acolas[i] = (a[int(acola[i])])
+                    i+=1
+                if options.attach:
+                    attachment = acolas + attachment
+                else:
+                    attachment = acolas
+            i = int(0)
+            if options.acol or options.attach:
+                while i < len(attachment):
+                    if attachment[i] != '':
+                        filename=attachment[i]
+                        fp=open(filename, 'rb')
+                        ext=Path(filename).suffix
+                        ext = ext[1:]
+                        att = email.mime.application.MIMEApplication(fp.read(),_subtype=ext)
+                        fp.close()
+                        att.add_header('Content-Disposition','attachment',filename=filename)
+                        msg.attach(att)
+                    i+=1
             try:
-                server_ssl.sendmail(emid,[a[(options.ecol)]], msg.as_string())
+                server_ssl.sendmail(emid,[a[int(options.ecol[k])]], msg.as_string())
                 rownum+=1
+                k+=1
                 print("Completed " + str(rownum) + " emails.")
             except:
-                with open('fail.txt', 'a') as fail:
-                    fail.write(a[(options.ecol)] + '\n')
+                try:
+                    server_ssl.sendmail(emid,[a[int(options.ecol[k])]], msg.as_string())
+                    rownum+=1
+                    k+=1
+                    print("Completed " + str(rownum) + " emails.")
+                except:
+                    with open('fail.txt', 'a') as fail:
+                        fail.write(a[int(options.ecol[k])] + '\n')
+                        k+=1
     server_ssl.quit()
 except:
-    print("Login failed.")
+    print("Error Occurred.")
