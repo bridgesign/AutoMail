@@ -7,6 +7,11 @@ If you want to use gmail or other providers which generally block scripts, just 
 Look in the examples folder.
 # Usage
 python automail.py [options] [arguments]
+Note: column number starts from 0.
+
+Also, you can use -a command with multiple file names. Preferably, use -a again and again. You can use -a with -c and -c can have multiple columns.
+
+Eg: python automail.py 
 
 Other options:
 Usage: automail.py [options]
