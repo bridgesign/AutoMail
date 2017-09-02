@@ -12,9 +12,9 @@ Other options:
 Usage: automail.py [options]
 
 Options:
-  -h, --help            show this help message and exit
-  -e ECOL, --ecol=ECOL  define the column nummber for email
-  -a ATTACH, --attach=ATTACH
+  -h, --help            show this help message and exit<br>
+  -e ECOL, --ecol=ECOL  define the column nummber for email<br>
+  -a ATTACH, --attach=ATTACH<br>
                         attach a file or list of files to mail
   -c ACOL, --acol=ACOL  attach file written in a given column
   -m CONTENT, --content=CONTENT
