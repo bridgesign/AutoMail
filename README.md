@@ -14,21 +14,14 @@ Usage: automail.py [options]
 Options:
   -h, --help            show this help message and exit<br>
   -e ECOL, --ecol=ECOL  define the column nummber for email<br>
-  -a ATTACH, --attach=ATTACH<br>
+  -a ATTACH, --attach=ATTACH
                         attach a file or list of files to mail<br>
   -c ACOL, --acol=ACOL  attach file written in a given column<br>
-  -m CONTENT, --content=CONTENT<br>
-                        the file containing the email content. Default is
-                        nothing.<br>
-  -n CCOL, --content-col=CCOL<br>
-                        define column contaning the message file name<br>
-  -s SUBJECT, --subject=SUBJECT<br>
-                        define the subject of email. Put it in quotes. Default
-                        is nothing.<br>
-  -t SCOL, --subject-col=SCOL<br>
-                        define column containing subject<br>
-  -d DELIM, --delimiter=DELIM<br>
-                        sets the delimiter. Default is ','<br>
+  -m CONTENT, --content=CONTENT   the file containing the email content. Default is nothing.<br>
+  -n CCOL, --content-col=CCOL       define column contaning the message file name<br>
+  -s SUBJECT, --subject=SUBJECT      define the subject of email. Put it in quotes. Default is nothing.<br>
+  -t SCOL, --subject-col=SCOL     define column containing subject<br>
+  -d DELIM, --delimiter=DELIM       sets the delimiter. Default is ','<br>
   -f FILE, --file=FILE  define the file to take input<br>
   -p PICK, --pick=PICK  This is used to define what word should be used to
                         call details from file. Default is arg. In content,
