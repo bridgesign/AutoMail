@@ -1,5 +1,5 @@
 # Automail
-Automail is an automated personalized email sender. It can send emails from your email-id. You can create different formats for different people. Specifically send attachment as well as sending common attachments. It basically uses a database. It can route any entry anywhere in its options. Everything uses SSL.
+Automail is an automated personalized email sender. It can send emails from your email-id. You can create different formats for different people. Specifically send attachment as well as sending common attachments. It basically uses a database. It can route any entry anywhere in its options. Everything uses SSL. If it fails to send email, it records the failed ones in fail.txt
 # Setup
 It uses Python 3. It uses only the standard packages included normally.
 If you want to use gmail or other providers which generally block scripts, just go to my account-->Login settings. Then turn on the 'Access to less secure apps.'
