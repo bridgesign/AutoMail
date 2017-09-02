@@ -9,9 +9,9 @@ Look in the examples folder.
 python automail.py [options] [arguments]
 Note: column number starts from 0.
 
-Also, you can use -a command with multiple file names. Preferably, use -a again and again. You can use -a with -c and -c can have multiple columns.
+Also, you can use -a command with multiple file names. Preferably, use -a again and again. You can use -a with -c and -c can have multiple columns. Also -e can be used for more than one email id.
 
-Eg: python automail.py -e 1 -s "it is example" -a msg.txt -a msg1.txt -c 4 -c 5 -f list.csv --host "exaple.com" --port 25
+Eg: python automail.py -e 0 -e 1 -s "it is example" -a msg.txt -a msg1.txt -c 4 -c 5 -f list.csv --host "exaple.com" --port 25
 
 Other options:
 Usage: automail.py [options]
