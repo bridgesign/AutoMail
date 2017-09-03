@@ -35,6 +35,7 @@ parser.add_option("-p", "--pick", type="string", help="This is used to define wh
 parser.add_option("-i", "--host", type="string", help="used to set the smtp host. Default is smtp.googlemail.com", default="smtp.googlemail.com", action="store", dest="host")
 parser.add_option("-j", "--port", type="string", help="sets the port of smtp host. Default is 465.", default="465", action="store", dest="port")
 parser.add_option("--no-ssl", type="string", help="restricts the use of ssl. For non ssl smtp hosts", action="store", dest="nossl")
+parser.add_option("--no-header", type="string", help="Tells that first row is to considered as entry.", action="store", dest="nohead")
 
 (options, args) = parser.parse_args()
 
@@ -78,6 +79,10 @@ ifile = open(options.file, 'rU')
 reader = csv.reader(ifile, delimiter=delim)
 a = []
 rownum = int(0)
+i = (-1)*len(options.ecol)
+
+if options.nohead:
+    i = int(0)
 
 server_ssl = smtplib.SMTP_SSL(options.host, (options.port))
 if options.nossl:
@@ -92,7 +97,7 @@ for (row) in reader:
     a = (row)
     msg = email.mime.multipart.MIMEMultipart()
     k = int(0)
-    while k < len(options.ecol) and a[int(options.ecol[k])] != '':
+    while k < len(options.ecol) and a[int(options.ecol[k])] != '' and i >= 0:
         if options.scol:
             options.scol = int(options.scol)
             subject = a[(options.scol)]
@@ -145,16 +150,17 @@ for (row) in reader:
         try:
             server_ssl.sendmail(emid,[a[int(options.ecol[k])]], msg.as_string())
             rownum+=1
-            k+=1
             print("Completed " + str(rownum) + " emails.")
+            k+=1
         except:
             try:
                 server_ssl.sendmail(emid,[a[int(options.ecol[k])]], msg.as_string())
                 rownum+=1
-                k+=1
                 print("Completed " + str(rownum) + " emails.")
+                k+=1
             except:
                 with open('fail.txt', 'a') as fail:
                     fail.write(a[int(options.ecol[k])] + '\n')
                     k+=1
+    i+=1
 server_ssl.quit()
