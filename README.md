@@ -36,5 +36,6 @@ Options:
                         smtp.googlemail.com<br>
   -j PORT, --port=PORT  sets the port of smtp host. Default is 465.<br>
   --no-ssl=NOSSL        restricts the use of ssl. For non ssl smtp hosts<br>
+  --no-header=NOHEAD    Considers first row as input.
 # Contribution
 Feel free to use or contribute in any way! If you have any suggestion, create or a pull request or an issue on GitHub.
