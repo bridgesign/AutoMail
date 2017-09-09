@@ -124,11 +124,11 @@ for (row) in reader:
 
         if options.acol:
             acola = []
-            acolas = [len(acola)]
+            acolas = []
             acola = options.acol
             i = int(0)
             while i < len(acola):
-                acolas[i] = (a[int(acola[i])])
+                acolas.append(a[int(acola[i])])
                 i+=1
             if options.attach:
                 attachment = acolas + attachment
