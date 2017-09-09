@@ -34,8 +34,8 @@ parser.add_option("-f", "--file", type="string", help="define the file to take i
 parser.add_option("-p", "--pick", type="string", help="This is used to define what word should be used to call details from file. Default is arg. In content, arg[1] refers to value of cell corresponding to column 1 and respective row.", default="arg", action="store", dest="pick")
 parser.add_option("-i", "--host", type="string", help="used to set the smtp host. Default is smtp.googlemail.com", default="smtp.googlemail.com", action="store", dest="host")
 parser.add_option("-j", "--port", type="string", help="sets the port of smtp host. Default is 465.", default="465", action="store", dest="port")
-parser.add_option("--no-ssl", type="string", help="restricts the use of ssl. For non ssl smtp hosts", action="store", dest="nossl")
-parser.add_option("--no-header", type="string", help="Tells that first row is to considered as entry.", action="store", dest="nohead")
+parser.add_option("--no-ssl", type="string", help="restricts the use of ssl. For non ssl smtp hosts", action="store_true", dest="nossl")
+parser.add_option("--no-header", action="store_true", help="Tells that first row is to considered as entry.", dest="nohead", default="")
 
 (options, args) = parser.parse_args()
 
@@ -97,7 +97,7 @@ for (row) in reader:
     a = (row)
     msg = email.mime.multipart.MIMEMultipart()
     k = int(0)
-    while k < len(options.ecol) and a[int(options.ecol[k])] != '' and i >= 0:
+    while k < len(options.ecol) and a[int(options.ecol[k])] != '' and i >= -1:
         if options.scol:
             options.scol = int(options.scol)
             subject = a[(options.scol)]
