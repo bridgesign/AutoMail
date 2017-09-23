@@ -36,6 +36,7 @@ parser.add_option("-i", "--host", type="string", help="used to set the smtp host
 parser.add_option("-j", "--port", type="string", help="sets the port of smtp host. Default is 465.", default="465", action="store", dest="port")
 parser.add_option("--no-ssl", help="restricts the use of ssl. For non ssl smtp hosts", action="store_true", dest="nossl")
 parser.add_option("--no-header", action="store_true", help="Tells that first row is to considered as entry.", dest="nohead", default="")
+parser.add_option("--html", action="store_true", help="Sends HTML email.", dest="html", default="")
 
 (options, args) = parser.parse_args()
 
@@ -126,6 +127,8 @@ for (row) in reader:
             i+=1
 
         body = email.mime.text.MIMEText(message)
+        if options.html:
+            body = email.mime.text.MIMEText(message, 'html')
         msg.attach(body)
 
         if options.acol:
