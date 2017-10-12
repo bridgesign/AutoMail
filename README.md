@@ -8,7 +8,8 @@ Look in the examples folder.
 # Usage
 python automail.py [options] [arguments]
 
-Note: column number starts from 0.
+<b>Note: column number starts from 0. Also, use double qoutes to put the subject and any thing sepertated by a space.</b>
+
 
 Also, you can use -a command with multiple file names. Preferably, use -a again and again. You can use -a with -c and -c can have multiple columns. Also -e can be used for more than one email id.
 
