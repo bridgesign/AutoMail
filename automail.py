@@ -1,7 +1,6 @@
 #!/usr/bin/python
 import smtplib
 import sys
-from pathlib import Path
 import time
 import csv
 from csv import reader
@@ -79,10 +78,10 @@ ifile = open(options.file, 'rU')
 reader = csv.reader(ifile, delimiter=delim)
 a = []
 rownum = int(0)
-i = (-1)*len(options.ecol)
+g = (-1)*len(options.ecol)
 
 if options.nohead:
-    i = int(0)
+    g = int(0)
 
 try:
     server_ssl = smtplib.SMTP_SSL(options.host, int(options.port))
@@ -100,11 +99,14 @@ except:
     server_ssl.quit()
     sys.exit(0)
 
+fail = open('fail.txt','w')
+fail.close()
+
 for (row) in reader:
     a = (row)
     msg = email.mime.multipart.MIMEMultipart()
     k = int(0)
-    while k < len(options.ecol) and a[int(options.ecol[k])] != '' and i >= -1:
+    while k < len(options.ecol) and a[int(options.ecol[k])] != '' and g >= -1:
         if options.scol:
             options.scol = int(options.scol)
             subject = a[(options.scol)]
@@ -151,7 +153,7 @@ for (row) in reader:
                 if attachment[i] != '':
                     filename=attachment[i]
                     fp=open(filename, 'rb')
-                    ext=Path(filename).suffix
+                    att_file, ext = os.path.splitext(filename)
                     ext = ext[1:]
                     att = email.mime.application.MIMEApplication(fp.read(),_subtype=ext)
                     fp.close()
@@ -173,5 +175,6 @@ for (row) in reader:
                 with open('fail.txt', 'a') as fail:
                     fail.write(a[int(options.ecol[k])] + '\n')
                     k+=1
-    i+=1
+                    fail.close()
+    g+=1
 server_ssl.quit()
