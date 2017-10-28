@@ -104,9 +104,9 @@ fail.close()
 
 for (row) in reader:
     a = (row)
-    msg = email.mime.multipart.MIMEMultipart()
     k = int(0)
     while k < len(options.ecol) and a[int(options.ecol[k])] != '' and g >= -1:
+        msg = email.mime.multipart.MIMEMultipart()
         if options.scol:
             options.scol = int(options.scol)
             subject = a[(options.scol)]
