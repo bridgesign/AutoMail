@@ -18,6 +18,7 @@ from os import path
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import getpass
+import random
 
 parser = OptionParser()
 
@@ -33,6 +34,7 @@ parser.add_option("-f", "--file", type="string", help="define the file to take i
 parser.add_option("-p", "--pick", type="string", help="This is used to define what word should be used to call details from file. Default is arg. In content, arg[1] refers to value of cell corresponding to column 1 and respective row.", default="arg", action="store", dest="pick")
 parser.add_option("-i", "--host", type="string", help="used to set the smtp host. Default is smtp.googlemail.com", default="smtp.googlemail.com", action="store", dest="host")
 parser.add_option("-j", "--port", type="string", help="sets the port of smtp host. Default is 465.", default="465", action="store", dest="port")
+parser.add_option("-w", "--wait", type="string", help="Creates delays in sending individual emails.", default="30", action="store", dest="wait")
 parser.add_option("--no-ssl", help="restricts the use of ssl. For non ssl smtp hosts", action="store_true", dest="nossl")
 parser.add_option("--no-header", action="store_true", help="Tells that first row is to considered as entry.", dest="nohead", default="")
 parser.add_option("--html", action="store_true", help="Sends HTML email.", dest="html", default="")
@@ -68,6 +70,8 @@ if options.subject:
 emid = input("Email-Id: ")
 password = getpass.getpass()
 
+if options.wait:
+    wait = int(options.wait)
 options.port = int(options.port)
 pick = options.pick
 delim = options.delim
@@ -106,6 +110,9 @@ for (row) in reader:
     a = (row)
     k = int(0)
     while k < len(options.ecol) and a[int(options.ecol[k])] != '' and g >= -1:
+        delay=0
+        if options.wait:
+            delay = random.randint(wait, wait+10)
         msg = email.mime.multipart.MIMEMultipart()
         if options.scol:
             options.scol = int(options.scol)
@@ -113,6 +120,7 @@ for (row) in reader:
         msg['Subject'] = subject
         msg['From'] = emid
         msg['To'] = a[int(options.ecol[k])]
+        time.sleep(delay*(0.33))
 
         if options.ccol:
             options.ccol = int(options.ccol)
@@ -131,6 +139,7 @@ for (row) in reader:
         body = email.mime.text.MIMEText(message)
         if options.html:
             body = email.mime.text.MIMEText(message, 'html')
+        time.sleep(delay*(0.33))
         msg.attach(body)
 
         if options.acol:
@@ -164,12 +173,14 @@ for (row) in reader:
             server_ssl.sendmail(emid,[a[int(options.ecol[k])]], msg.as_string())
             rownum+=1
             print("Completed " + str(rownum) + " emails.")
+            time.sleep(delay*(0.1))
             k+=1
         except:
             try:
                 server_ssl.sendmail(emid,[a[int(options.ecol[k])]], msg.as_string())
                 rownum+=1
                 print("Completed " + str(rownum) + " emails.")
+                time.sleep(delay*(0.33))
                 k+=1
             except:
                 with open('fail.txt', 'a') as fail:
