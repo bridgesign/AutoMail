@@ -37,8 +37,11 @@ Options:
   -i HOST, --host=HOST  used to set the smtp host. Default is
                         smtp.googlemail.com<br>
   -j PORT, --port=PORT  sets the port of smtp host. Default is 465.<br>
+  -w WAIT, --wait=WAIT  creates a delay in individual mails. Default is 30. (time in seconds)<br>
   --no-ssl=NOSSL        restricts the use of ssl. For non ssl smtp hosts<br>
   --no-header=NOHEAD    Considers first row as input.<br>
   --html=HTML           Sends HTML emails.
+  
+  The wait opiton is made in case, like gmail blocks your account if you try to send more than about 100 mails in an hour. It creates the   required delays and thus makes it look more human like, thus allowing to mail slowly without any extra external commands.
 # Contribution
 Feel free to use or contribute in any way! If you have any suggestion, create or a pull request or an issue on GitHub.
