@@ -109,7 +109,7 @@ fail.close()
 for (row) in reader:
     a = (row)
     k = int(0)
-    while k < len(options.ecol) and a[int(options.ecol[k])] != '' and g >= -1:
+    while ((k < len(options.ecol)) and (a[int(options.ecol[k])] != '') and (g > -1)):
         delay=0
         if options.wait:
             delay = random.randint(wait, wait+10)
