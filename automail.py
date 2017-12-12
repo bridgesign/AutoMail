@@ -157,18 +157,19 @@ for (row) in reader:
                 attachment = acolas[:]
         i = int(0)
         if options.acol or options.attach:
-            attachment = options.attach[:]
-            while i < len(attachment):
-                if attachment[i] != '':
-                    filename=attachment[i]
-                    fp=open(filename, 'rb')
-                    att_file, ext = os.path.splitext(filename)
-                    ext = ext[1:]
-                    att = email.mime.application.MIMEApplication(fp.read(),_subtype=ext)
-                    fp.close()
-                    att.add_header('Content-Disposition','attachment',filename=filename)
-                    msg.attach(att)
-                i+=1
+        	if options.attach and options.acol is None:
+        		attachment = options.attach[:]
+        	while i < len(attachment):
+        		if attachment[i] != '':
+        			filename=attachment[i]
+        			fp=open(filename, 'rb')
+        			att_file, ext = os.path.splitext(filename)
+        			ext = ext[1:]
+        			att = email.mime.application.MIMEApplication(fp.read(),_subtype=ext)
+        			fp.close()
+        			att.add_header('Content-Disposition','attachment',filename=filename)
+        			msg.attach(att)
+        		i+=1
         try:
             server_ssl.sendmail(emid,[a[int(options.ecol[k])]], msg.as_string())
             rownum+=1
