@@ -1,4 +1,7 @@
 # Automail
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/26e08cbfe7734e9bb6ae1772764c1dbd)](https://app.codacy.com/app/bridgesign/AutoMail?utm_source=github.com&utm_medium=referral&utm_content=bridgesign/AutoMail&utm_campaign=badger)
+
 Automail is an automated personalized email sender. It can send emails from your email-id. You can create different formats for different people. Specifically send attachment as well as sending common attachments. It basically uses a database. It can route any entry anywhere in its options. Everything uses SSL. If it fails to send email, it records the failed ones in fail.txt
 # Setup
 It uses Python 3. It uses only the standard packages included normally.
