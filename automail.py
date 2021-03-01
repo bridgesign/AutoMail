@@ -109,6 +109,9 @@ class smtpsession:
         self.emid = emid
         self.counter = 0
         self.fail = fail
+        if options.content:
+        	with open(options.content) as f:
+        		self.content = f.read()
 
     # Starts session
     def start_session(self):
@@ -207,7 +210,7 @@ def main():
     session.login_session()
 
     #Defines ifile as the file operator for the input file.
-    ifile = open(options.file, 'rU')
+    ifile = open(options.file, 'r')
     #Reads the data from input file to reader.
     reader = csv.reader(ifile, delimiter=options.delim)
 
