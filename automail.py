@@ -221,7 +221,7 @@ def main():
         for rec in options.ecol:
             session.create_mail(row, row[rec])
             if options.wait:
-                sleep(random.randint(options.wait, options.wait+10))
+                time.sleep(random.randint(options.wait, options.wait+10))
             session.send_email()
 
     fail.close()
