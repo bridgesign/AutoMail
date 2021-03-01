@@ -222,7 +222,7 @@ def main():
             session.create_mail(row, row[rec])
             if options.wait:
                 time.sleep(random.randint(options.wait, options.wait+10))
-            session.send_email()
+            session.send_email(row[rec])
 
     fail.close()
     ifile.close()
