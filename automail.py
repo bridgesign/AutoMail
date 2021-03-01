@@ -110,7 +110,7 @@ class smtpsession:
         self.counter = 0
         self.fail = fail
         if options.content:
-        	with open(options.content) as f:
+        	with open(options.content, 'r') as f:
         		self.content = f.read()
 
     # Starts session
